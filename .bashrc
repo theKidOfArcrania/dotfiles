@@ -10,6 +10,11 @@ esac
 
 alias ssh-proxy='ssh -f -N -D 12345 -p 1001 104.131.79.111'
 
+if [ -v WSLENV ]; then
+  LOCAL_IP=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
+  export DISPLAY=$LOCAL_IP:0
+fi
+
 source ~/posh-git-sh/git-prompt.sh
 #PATH=/usr/local/texlive/2018/bin/x86_64-linux/:$PATH:~/bin
 PATH=$HOME/.local/bin/:$HOME/.cabal/bin/:$HOME/bin:$HOME/x-tools/arm-android-linux-gnueabi/bin:$HOME/.cargo/bin:$HOME/.stack/programs/x86_64-linux/ghc-tinfo6-8.8.3/bin/:/sbin:/usr/sbin:$PATH
