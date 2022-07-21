@@ -13,15 +13,17 @@ if [ -v WSLENV ]; then
   # Run pulseaudio
   echo "[+] Running pulseaudio"
   host_ip=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
-  wsl_ip=$(ip a | grep "inet " | grep "eth0" | awk '{print $2}' | awk -F '/' '{print $1}')
 
-  (
-  export PATH=/mnt/c/cygwin64/bin
-  pactl.exe load-module module-native-protocol-tcp auth-ip-acl=$wsl_ip &
-  )
+  reload-wsl-audio
 
   export PULSE_SERVER=tcp:$host_ip
   export DISPLAY=$host_ip:0
+
+  # Launch bus daemon session if not found
+  if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+    # If nothing exists, then we launch a new one
+    eval $(dbus-launch --sh-syntax)
+  fi
 fi
 
 # Run i3

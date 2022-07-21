@@ -11,7 +11,6 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set laststatus=2
-
 set termguicolors
 
 set textwidth=80
@@ -109,6 +108,8 @@ nnoremap <F2> :call CoqToggle()<CR>
 nnoremap <leader>j :CoqNext<CR>
 nnoremap <leader>k :CoqRewind<CR>
 nnoremap <leader>l :CoqToCursor<CR>
+
+set exrc
 
 set statusline+=%#warningmsg#
 set statusline+=%*
@@ -254,3 +255,4 @@ call plug#end()
 
 colorscheme elflord2
 
+set secure
