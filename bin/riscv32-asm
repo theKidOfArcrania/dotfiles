@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+
+TMP1=$(mktemp)
+TMP2=$(mktemp)
+
+riscv32-unknown-elf-as -c $1 -o $TMP1
+riscv32-unknown-elf-objcopy -O binary -j '.text' $TMP1 $TMP2
+rm -f $TMP1
+hexdump -v -e '1/4 "0x%08x \n"'   $TMP2
