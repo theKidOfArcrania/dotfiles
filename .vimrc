@@ -114,6 +114,10 @@ inoremap <C-Down>  <C-\><C-o>:CoqNext<CR>
 inoremap <C-Up>    <C-\><C-o>:CoqUndo<CR>
 inoremap <C-Right> <C-\><C-o>:CoqToLine<CR>
 
+inoremap <leader>cj  <C-\><C-o>:CoqNext<CR>
+inoremap <leader>ck    <C-\><C-o>:CoqUndo<CR>
+inoremap <leader>cl <C-\><C-o>:CoqToLine<CR>
+
 set exrc
 
 set statusline+=%#warningmsg#
@@ -226,8 +230,8 @@ Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+"Plug 'junegunn/fzf.vim'
 
 Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'
@@ -239,29 +243,32 @@ Plug 'briancollins/vim-jst'
 Plug 'pangloss/vim-javascript'
 Plug 'Superbil/llvm.vim'
 Plug 'justinmk/vim-syntax-extra'
+Plug 'neovimhaskell/haskell-vim'
+" Don't use that cause it's out of date
 " Plug 'https://github.com/jvoorhis/coq.vim'
 Plug 'leafgarland/typescript-vim'
 
 " Language processing
 "Plug 'scrooloose/syntastic'
 " TODO: check if this is actually needed in liu of coc?
-Plug 'Quramy/tsuquyomi'
+"Plug 'Quramy/tsuquyomi'
 "Plug 'xavierd/clang_complete'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
 " Coq
-Plug 'whonore/Coqtail'
+Plug 'theKidOfArcrania/Coqtail'
 
 " Haskell
-Plug 'neovimhaskell/haskell-vim'
 " Plug 'alx741/vim-hindent' " Optional
 
 " Other stuff
 Plug 'tpope/vim-eunuch'
 Plug 'terryma/vim-multiple-cursors'
 Plug '~/.vimlocal/elflord2'
+Plug '~/.vimlocal/unicode'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'fidian/hexmode'
+Plug 'chrisbra/unicode.vim'
 
 call plug#end()
 

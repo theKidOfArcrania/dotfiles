@@ -9,6 +9,7 @@ case $- in
 esac
 
 alias ssh-proxy='ssh -f -N -D 12345 -p 1001 104.131.79.111'
+alias tz="TZ_LIST='America/Los_Angeles;America/Chicago;America/New_York' tz"
 
 export DONT_PROMPT_WSL_INSTALL=1
 

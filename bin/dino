@@ -1,0 +1,4 @@
+#!/bin/bash
+cd $HOME/.wine32_ILSpy/drive_c/Program\ Files/Alawar/DinoAndAliensCracked/
+WINEPREFIX=$HOME/.wine32_ILSpy firejail --noprofile --net=none \
+  wine DinoAndAliens.exe "$@" 2>/dev/null >/dev/null &
