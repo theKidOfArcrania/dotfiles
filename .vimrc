@@ -289,6 +289,8 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'fidian/hexmode'
 Plug 'chrisbra/unicode.vim'
 
+Plug 'NLKNguyen/papercolor-theme'
+
 call plug#end()
 
 colorscheme elflord2
