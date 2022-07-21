@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+SOURCE=alsa_input.pci-0000_07_00.5-platform-acp_pdm_mach.0.stereo-fallback
+SINK=alsa_output.pci-0000_07_00.6.analog-stereo
+
+pactl unload-module module-loopback
+pactl unload-module module-null-sink
+pactl load-module module-null-sink sink_name=Virtual0
+pactl load-module module-loopback source=$SINK.monitor sink=Virtual0
+pactl load-module module-loopback source=$SOURCE sink=Virtual0
+pactl set-default-source Virtual0.monitor

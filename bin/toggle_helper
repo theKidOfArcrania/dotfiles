@@ -28,8 +28,8 @@ case "$(basename "$0")" in
     setlevel $(( (CUR + 1) % (MAX + 1) ))
     ;;
   toggle_audio_mute)
-    amixer -q set Master toggle
-    MUTED=$(pacmd list-sinks | awk '/muted/ { print $2 }')
+    amixer -q -D pulse sset Master toggle
+    MUTED=$(pacmd list-sinks | awk '/muted/ { print $2 }' | head -1)
     setvars leds platform::mute
     if [ "$MUTED" == "no" ]; then
       MUTED=0
@@ -38,6 +38,18 @@ case "$(basename "$0")" in
     fi
     setlevel $MUTED
     ;;
+  toggle_mic_mute)
+    pactl set-source-mute 0 toggle
+    MUTED=$(pacmd list-sources | awk '/muted/ { print $2 }' | head -1 )
+    setvars leds platform::micmute
+    if [ "$MUTED" == "no" ]; then
+      MUTED=0
+    else
+      MUTED=1
+    fi
+    setlevel $MUTED
+    ;;
+
   incr_backlight)
     setvars backlight amdgpu_bl0
     setlevel +10%
