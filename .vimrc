@@ -118,6 +118,17 @@ inoremap <leader>cj  <C-\><C-o>:CoqNext<CR>
 inoremap <leader>ck    <C-\><C-o>:CoqUndo<CR>
 inoremap <leader>cl <C-\><C-o>:CoqToLine<CR>
 
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming
+nnoremap <leader>rn <Plug>(coc-rename)
+
+" Formatting
+xnoremap <leader>f <Plug>(coc-format-selected)
+nnoremap <leader>f <Plug>(coc-format-selected)
+
+
 set exrc
 
 set statusline+=%#warningmsg#
@@ -187,6 +198,14 @@ nmap <leader>F  <Plug>(coc-format-selected)
 " Example: `<leader>aap` for current paragraph
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Run the Code Lens action on the current line.
+nmap <leader>cl  <Plug>(coc-codelens-action)
 
 " Show all diagnostics.
 nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
