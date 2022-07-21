@@ -11,6 +11,7 @@ deps = [
         {'name': 'clang', 'progs': ['clang', 'llc-11'], 'required': True},
         {'name': 'i3', 'progs': ['i3'], 'required': False},
         {'name': 'fzf', 'progs': ['fzf'], 'required': False},
+        {'name': 'curl', 'progs': ['curl'], 'required': True},
 ]
 
 for dep in deps:
