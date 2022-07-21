@@ -174,8 +174,8 @@ fi
 
 #[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 if which fzf > /dev/null 2> /dev/null; then
-   source /usr/share/doc/fzf/examples/key-bindings.bash
-   source /usr/share/doc/fzf/examples/completion.bash
+   source ~/.fzf/key-bindings.bash
+   source ~/.fzf/completion.bash
 fi
 
 
