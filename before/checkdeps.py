@@ -8,6 +8,8 @@ deps = [
         {'name': 'coqide', 'progs': ['coqide'], 'required': False},
         {'name': 'Build essentials', 'progs': ['gcc', 'make'], 'required': True},
         {'name': 'hasktags', 'progs': ['hasktags'], 'required': False},
+        {'name': 'clang', 'progs': ['clang', 'llc-11'], 'required': True},
+        {'name': 'i3', 'progs': ['i3'], 'required': False},
 ]
 
 for dep in deps:
