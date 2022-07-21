@@ -92,7 +92,7 @@ let g:tagbar_type_haskell = {
 let g:coq_on = 0
 fu! CoqToggle()
   if g:coq_on
-    CoqQuit
+    CoqStop
     let g:coq_on = 0
   else
     CoqStart
@@ -103,11 +103,16 @@ endf
 nmap <F8> :TagbarToggle<CR>
 
 inoremap <C-\> λ
+inoremap <C-e> ε
+inoremap <C-O> Ø
 
 nnoremap <F2> :call CoqToggle()<CR>
-nnoremap <leader>j :CoqNext<CR>
-nnoremap <leader>k :CoqRewind<CR>
-nnoremap <leader>l :CoqToCursor<CR>
+nnoremap <C-Down>  :CoqNext<CR>
+nnoremap <C-Up>    :CoqUndo<CR>
+nnoremap <C-Right> :CoqToLine<CR>
+inoremap <C-Down>  <C-\><C-o>:CoqNext<CR>
+inoremap <C-Up>    <C-\><C-o>:CoqUndo<CR>
+inoremap <C-Right> <C-\><C-o>:CoqToLine<CR>
 
 set exrc
 
@@ -203,6 +208,13 @@ autocmd ColorScheme * hi ExtraWhitespace ctermbg=red guibg=red
 hi ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 
+augroup CoqtailHighlights
+  autocmd!
+  autocmd ColorScheme *
+    \  hi default CoqtailSent    guibg=#661100 ctermbg=darkred
+    \| hi default CoqtailChecked guibg=#113300 ctermbg=darkgreen
+augroup END
+
 call plug#begin('~/.vim/plugged')
 
 " Code completion
@@ -227,7 +239,7 @@ Plug 'briancollins/vim-jst'
 Plug 'pangloss/vim-javascript'
 Plug 'Superbil/llvm.vim'
 Plug 'justinmk/vim-syntax-extra'
-Plug 'https://github.com/jvoorhis/coq.vim'
+" Plug 'https://github.com/jvoorhis/coq.vim'
 Plug 'leafgarland/typescript-vim'
 
 " Language processing
@@ -238,7 +250,7 @@ Plug 'Quramy/tsuquyomi'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
 " Coq
-Plug 'https://framagit.org/manu/coq-au-vim'
+Plug 'whonore/Coqtail'
 
 " Haskell
 Plug 'neovimhaskell/haskell-vim'
