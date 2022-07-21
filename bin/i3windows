@@ -1,0 +1,1 @@
+nohup i3 -c ~/.config/i3/config2 >> ~/.i3windows_log 2>&1 &

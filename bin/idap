@@ -1,0 +1,3 @@
+#!/bin/bash
+
+WINEPREFIX=$HOME/.wine wine "C:/Program Files/IDA Pro 7.4/ida.exe" $@ 2>/dev/null > /dev/null &

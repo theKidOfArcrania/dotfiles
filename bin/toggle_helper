@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Requires brightnessctl
+
+setvars() {
+  if [ $# -ne 2 ]; then
+    echo "Expected: setvars CLASS DEV"
+    return 1
+  fi
+  CLASS=$1
+  DEV=$2
+  MAX=$(brightnessctl -d "$DEV" -c "$CLASS" -m max)
+  CUR=$(brightnessctl -d "$DEV" -c "$CLASS" -m get)
+
+  setlevel() {
+    if [ $# -ne 1 ]; then
+      echo "Expected: setlevel LEVEL"
+      return 1
+    fi
+    brightnessctl -d "$DEV" -c "$CLASS" -m set "$1"
+  }
+
+}
+
+case "$(basename "$0")" in
+  toggle_kbd_backlight)
+    setvars leds tpacpi::kbd_backlight
+    setlevel $(( (CUR + 1) % (MAX + 1) ))
+    ;;
+  toggle_audio_mute)
+    amixer -q set Master toggle
+    MUTED=$(pacmd list-sinks | awk '/muted/ { print $2 }')
+    setvars leds platform::mute
+    if [ "$MUTED" == "no" ]; then
+      MUTED=0
+    else
+      MUTED=1
+    fi
+    setlevel $MUTED
+    ;;
+  incr_backlight)
+    setvars backlight amdgpu_bl0
+    setlevel +10%
+    ;;
+  decr_backlight)
+    setvars backlight amdgpu_bl0
+    setlevel 10%-
+    ;;
+  *)
+    echo "Invalid usage of toggle_helper"
+    exit 1
+esac
+
+
+DEV=tpacpi::kbd_backlight
+CLASS=leds
+

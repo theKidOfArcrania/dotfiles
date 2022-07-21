@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if ! nc -z localhost 12345; then
+  ssh -fNq hhw170030@cs1.utdallas.edu -D 12345 || exit 1
+fi
+
+ssh -o "ProxyCommand /bin/nc -X 5 -x 127.0.0.1:12345 %h %p" "$@"

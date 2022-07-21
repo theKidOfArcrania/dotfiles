@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+cd ~/msteams
+
+export TMP=/tmp/msteams
+export XAUTH=$TMP/.docker.xauth
+export XSOCK=/tmp/.X11-unix
+sudo mkdir -p $TMP
+sudo -E ./mount.sh
+
+sudo ./runc "$@" &

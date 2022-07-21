@@ -1,0 +1,1 @@
+maim -s -u | xclip -selection clip -t image/png

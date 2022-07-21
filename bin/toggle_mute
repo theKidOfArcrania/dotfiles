@@ -1,0 +1,8 @@
+#!/bin/bash
+
+DEV=tpacpi::kbd_backlight
+CLASS=leds
+MAX=$(brightnessctl -d "$DEV" -c "$CLASS" -m max)
+CUR=$(brightnessctl -d "$DEV" -c "$CLASS" -m get)
+
+brightnessctl -d "$DEV" -c "$CLASS" -m set $(( (CUR + 1) % (MAX + 1) ))

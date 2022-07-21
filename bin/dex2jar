@@ -1,0 +1,3 @@
+#!/bin/sh
+
+~/git/dex-tools-2.1-SNAPSHOT/d2j-dex2jar.sh "$@"
