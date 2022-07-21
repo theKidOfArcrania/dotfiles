@@ -111,8 +111,12 @@ nnoremap <leader>k :CoqRewind<CR>
 nnoremap <leader>l :CoqToCursor<CR>
 
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 set colorcolumn=80
 
@@ -125,7 +129,19 @@ nmap <F8> :TagbarToggle<CR>
 
 inoremap <C-\> λ
 
-"nnoremap <leader>jd :YcmCompleter GoTo<CR>
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
@@ -136,6 +152,11 @@ nmap <silent> gr <Plug>(coc-references)
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -151,6 +172,11 @@ endfunction
 " Formatting selected code.
 xmap <leader>F  <Plug>(coc-format-selected)
 nmap <leader>F  <Plug>(coc-format-selected)
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Show all diagnostics.
 nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
@@ -195,21 +221,25 @@ Plug 'itchyny/lightline.vim'
 
 Plug 'myusuf3/numbers.vim'
 
-" Languages
+" Syntax highlighting
 Plug 'briancollins/vim-jst'
 Plug 'pangloss/vim-javascript'
-Plug 'justinmk/vim-syntax-extra'
-Plug 'scrooloose/syntastic'
-Plug 'Quramy/tsuquyomi'
 Plug 'Superbil/llvm.vim'
-Plug 'xavierd/clang_complete'
+Plug 'justinmk/vim-syntax-extra'
+Plug 'https://github.com/jvoorhis/coq.vim'
+Plug 'leafgarland/typescript-vim'
+
+" Language processing
+"Plug 'scrooloose/syntastic'
+" TODO: check if this is actually needed in liu of coc?
+Plug 'Quramy/tsuquyomi'
+"Plug 'xavierd/clang_complete'
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
 " Coq
 Plug 'https://framagit.org/manu/coq-au-vim'
-Plug 'https://github.com/jvoorhis/coq.vim'
 
 " Haskell
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'neovimhaskell/haskell-vim'
 " Plug 'alx741/vim-hindent' " Optional
 
@@ -217,7 +247,6 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'tpope/vim-eunuch'
 Plug 'terryma/vim-multiple-cursors'
 Plug '~/.vimlocal/elflord2'
-Plug 'leafgarland/typescript-vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'fidian/hexmode'
 
