@@ -157,6 +157,11 @@ if [ -e /opt/nasmx-1.4 ]; then
 fi
 
 #[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if which fzf > /dev/null 2> /dev/null; then
+   source /usr/share/doc/fzf/examples/key-bindings.bash
+   source /usr/share/doc/fzf/examples/completion.bash
+fi
+
 
 #alias vi=nvim
 #alias vim=nvim
