@@ -10,6 +10,8 @@ esac
 
 alias ssh-proxy='ssh -f -N -D 12345 -p 1001 104.131.79.111'
 
+export DONT_PROMPT_WSL_INSTALL=1
+
 if [ -v WSLENV ]; then
   LOCAL_IP=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
   export DISPLAY=$LOCAL_IP:0

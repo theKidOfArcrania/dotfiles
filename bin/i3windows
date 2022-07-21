@@ -1,1 +1,29 @@
+#!/bin/bash
+
+if [ -v WSLENV ]; then
+  echo "[+] Killing i3 and its related components"
+  killi3
+
+  # Run xlaunch
+  echo "[+] Running vcxsrv"
+  cd ~/bin
+  /mnt/c/Program\ Files/VcXsrv/vcxsrv.exe :0 -clipboard -wgl -ac -keyhook &
+
+
+  # Run pulseaudio
+  echo "[+] Running pulseaudio"
+  host_ip=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
+  wsl_ip=$(ip a | grep "inet " | grep "eth0" | awk '{print $2}' | awk -F '/' '{print $1}')
+
+  (
+  export PATH=/mnt/c/cygwin64/bin
+  pactl.exe load-module module-native-protocol-tcp auth-ip-acl=$wsl_ip &
+  )
+
+  export PULSE_SERVER=tcp:$host_ip
+  export DISPLAY=$host_ip:0
+fi
+
+# Run i3
+echo "[+] Running i3"
 nohup i3 -c ~/.config/i3/config2 >> ~/.i3windows_log 2>&1 &
