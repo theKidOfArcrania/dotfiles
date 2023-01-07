@@ -1,0 +1,8 @@
+#!/bin/bash
+
+VG=debian2
+LV=archive
+CRYPT=$VG-${LV}_crypt
+
+sudo cryptsetup open /dev/$VG/$LV $CRYPT
+sudo mount /dev/mapper/$CRYPT /mnt

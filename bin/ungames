@@ -1,0 +1,9 @@
+#!/bin/bash
+
+VG=debian2
+LV=archive
+CRYPT=$VG-${LV}_crypt
+
+sudo umount /mnt
+sudo cryptsetup close $CRYPT
+sudo cryptsetup close /dev/$VG/$LV

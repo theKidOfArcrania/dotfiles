@@ -199,6 +199,8 @@ fi
 
 alias xgrep="grep --exclude-dir=dist --exclude-dir=node_modules --exclude-dir=ctfdist"
 
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+export PASSWORD_STORE_SIGNING_KEY=80698DAF19F584513B58B26ECDE1A9ACB7D648DE
 
 # Enables autocompletion of options for bashfuscator
 #eval "$($HOME/.local/bin//register-python-argcomplete bashfuscator)"
@@ -216,3 +218,4 @@ fi
 
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export PASSWORD_STORE_SIGNING_KEY=80698DAF19F584513B58B26ECDE1A9ACB7D648DE
+export STAR_ROD_PATH=/home/henry/Downloads/games/paper-mario/StarRod/
