@@ -4,5 +4,5 @@ firejail --noprofile --net=none ~/ida76_nodistrib/ida $@ \
   2>/dev/null >/dev/null &
 
 #WINEPREFIX=$HOME/.wine firejail --noprofile --net=none \
-#  wine "C:/Program Files/IDA Pro 7.4/ida.exe" \
+#  wine "C:/Program Files/IDA Pro 7.7/ida.exe" \
 #  $@ 2>/dev/null >/dev/null &
