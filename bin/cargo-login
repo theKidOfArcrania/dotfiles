@@ -1,0 +1,6 @@
+#!/bin/bash
+TOKEN=$(pwsh.exe -Execution Unrestricted -Command 'echo "Bearer $((Get-AzAccessToken -ResourceUrl '"'"'499b84ac-1321-427f-aa17-267ca6975798'"'"').Token)"')
+echo $TOKEN | cargo +nightly login --registry morse-crates-io -Z registry-auth
+echo $TOKEN | cargo +nightly login --registry fuzzing-tools -Z registry-auth
+echo $TOKEN | cargo.exe +nightly login --registry morse-crates-io -Z registry-auth
+echo $TOKEN | cargo.exe +nightly login --registry fuzzing-tools -Z registry-auth

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e
+
+if [ "$#" -lt 1 ]; then
+  exec powershell.exe -NoProfile -ExecutionPolicy Unrestricted
+else
+  WINTMPFILE="$(powershell.exe -NoLogo -NoProfile "Write-Host (New-TemporaryFile).FullName").ps1"
+  TMPFILE=$(wslpath $WINTMPFILE)
+  cp "$1" "$TMPFILE"
+  trap "rm '$TMPFILE'" EXIT
+  export scriptpath=$(realpath $(dirname $1))
+  export WSLENV="scriptpath/p:$WSLENV"
+  powershell.exe -NoProfile -ExecutionPolicy Unrestricted $WINTMPFILE
+fi
+
+

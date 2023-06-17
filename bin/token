@@ -1,0 +1,8 @@
+#!/bin/bash
+
+explorer.exe https://fuzzfest.visualstudio.com/_usersSettings/tokens
+
+read -p "TOKEN: " TOKEN
+
+echo "Paste the following token:"
+echo -n "Basic " && (echo -n "PAT:$TOKEN" | base64) && echo ""

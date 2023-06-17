@@ -213,6 +213,10 @@ fi
 if [ -e $HOME/.cargo/env ]; then
   source "$HOME/.cargo/env"
 fi
+if [ -e $HOME/.local/env ]; then
+  source "$HOME/.local/env"
+fi
 
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export PASSWORD_STORE_SIGNING_KEY=80698DAF19F584513B58B26ECDE1A9ACB7D648DE
+export LC_ALL=en_US.UTF-8

@@ -1,0 +1,108 @@
+#!/usr/bin/python3
+from subprocess import check_output, call, DEVNULL, STDOUT
+from dateutil import parser
+from datetime import datetime, timedelta
+import base64
+import requests
+import os.path
+import json
+import sys
+
+def get_alias():
+    alias_path = os.path.expanduser("~/.alias")
+    if not os.path.exists(alias_path):
+        alias = input('Input your alias: ')
+        print(f'[*] Alias is written to: {alias_path}')
+        with open(alias_path, 'w') as f:
+            f.write(alias)
+    else:
+        with open(alias_path, 'r') as f:
+            alias = f.read().strip()
+    return alias
+
+def base_uri(org):
+    return f'https://vssps.dev.azure.com/{org}/_apis/tokens/pats'
+auth_tokens = {}
+def get_token(scope='499b84ac-1321-427f-aa17-267ca6975798'):
+    if scope not in auth_tokens:
+        auth_tokens[scope] = check_output(['pwsh.exe', '-Execution', 'Unrestricted', '-Command',
+            f' "$((Get-AzAccessToken -ResourceUrl \'{scope}\').Token)"']).strip()
+    return str(auth_tokens[scope], 'utf8')
+
+pat_tokens = None
+def get_pat_token(org='fuzzfest'):
+    global pat_tokens
+    auths_path = os.path.expanduser('~/.local/share/auths')
+    os.makedirs(auths_path, exist_ok = True)
+    auths_config = auths_path + '/tokens.json'
+
+    if pat_tokens == None:
+        if os.path.exists(auths_config):
+            try:
+                with open(auths_config, 'r') as f:
+                    pat_tokens = json.load(f)
+            except:
+                print('[!] Failed to parse tokens')
+                pat_tokens = {}
+        else:
+            pat_tokens = {}
+
+    if org not in pat_tokens or datetime.utcnow().timestamp() >= parser.parse(pat_tokens[org]['validTo']).timestamp():
+        body = {
+            'displayName': 'Rust/git CLI (auths)',
+            'validTo': (datetime.utcnow() + timedelta(days=30)).strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
+            'scope': 'vso.code_write vso.packaging_write',
+            'allOrgs': False,
+        }
+        resp = requests.post(base_uri(org) + '?api-version=6.1-preview',
+            headers={'Authorization': f'Bearer {get_token()}'}, json=body)
+        resp = json.loads(resp.content)
+        pat_tokens[org] = resp['patToken']
+
+        with open(auths_config, 'w') as f:
+            json.dump(pat_tokens, f)
+
+    return pat_tokens[org]['token']
+
+def auth_cargo(pat, registry, cargo='cargo'):
+    if type(pat) is str:
+        pat = bytes(pat, 'utf8')
+    auth = b'Basic ' + base64.b64encode(b'PAT:' + pat)
+    args = [cargo, '+nightly', 'login', '--registry', registry, '-Z', 'registry-auth']
+    check_output(args, input = auth, stderr = STDOUT)
+
+def is_wsl(test_with):
+    return os.name == 'posix' and call(['which', test_with],
+          stderr = DEVNULL, stdout = DEVNULL, stdin = DEVNULL) == 0
+
+
+if __name__ == '__main__':
+    get_alias()
+    pat = get_pat_token()
+
+    print('[*] Authenticating for rust')
+    auth_cargo(pat, 'morse-crates-io')
+    auth_cargo(pat, 'fuzzing-tools')
+    if is_wsl('cargo.exe'):
+        auth_cargo(pat, 'morse-crates-io', 'cargo.exe')
+        auth_cargo(pat, 'fuzzing-tools', 'cargo.exe')
+
+    if os.name == 'posix':
+        print('[*] Authenticating for git')
+        creds = {}
+        creds_path = os.path.expanduser('~/.git-credentials')
+        with open(creds_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                _, _, domain = line.partition('@')
+                creds[domain] = line
+
+        def auth_git(org):
+            domain = f'{org}.visualstudio.com'
+            creds[domain] = f'https://{get_alias()}:{get_pat_token(org)}@{domain}'
+
+        auth_git('fuzzfest')
+        auth_git('microsoft')
+        with open(creds_path, 'w') as f:
+            for cred in creds.values():
+                f.write(cred + '\n')
