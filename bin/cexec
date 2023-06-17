@@ -9,4 +9,4 @@ export XSOCK=/tmp/.X11-unix
 sudo mkdir -p $TMP
 sudo -E ./mount.sh
 
-sudo ./runc "$@" &
+sudo --preserve-env=SHARENET ./runc "$@" &

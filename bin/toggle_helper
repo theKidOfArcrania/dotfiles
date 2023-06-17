@@ -39,7 +39,7 @@ case "$(basename "$0")" in
     setlevel $MUTED
     ;;
   toggle_mic_mute)
-    pactl set-source-mute 0 toggle
+    pactl set-source-mute alsa_input.pci-0000_07_00.5-platform-acp_pdm_mach.0.stereo-fallback toggle
     MUTED=$(pacmd list-sources | awk '/muted/ { print $2 }' | head -1 )
     setvars leds platform::micmute
     if [ "$MUTED" == "no" ]; then

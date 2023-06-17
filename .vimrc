@@ -291,6 +291,7 @@ Plug '~/.vimlocal/unicode'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'fidian/hexmode'
 Plug 'chrisbra/unicode.vim'
+" Plug 'github/copilot.vim'
 
 Plug 'NLKNguyen/papercolor-theme'
 
