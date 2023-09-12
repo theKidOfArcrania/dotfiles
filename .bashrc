@@ -212,14 +212,18 @@ if [ -e $HOME/Downloads/google-cloud-sdk ]; then
 # The next line enables shell command completion for gcloud.
   if [ -f '$HOME/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '$HOME/Downloads/google-cloud-sdk/completion.bash.inc'; fi
 fi
+
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+export PASSWORD_STORE_SIGNING_KEY=80698DAF19F584513B58B26ECDE1A9ACB7D648DE
+export LC_ALL=en_US.UTF-8
+export STAR_ROD_PATH=/home/henry/Downloads/games/paper-mario/StarRod/
+
 if [ -e $HOME/.cargo/env ]; then
   source "$HOME/.cargo/env"
 fi
 if [ -e $HOME/.local/env ]; then
   source "$HOME/.local/env"
 fi
-
-export PASSWORD_STORE_ENABLE_EXTENSIONS=true
-export PASSWORD_STORE_SIGNING_KEY=80698DAF19F584513B58B26ECDE1A9ACB7D648DE
-export LC_ALL=en_US.UTF-8
-export STAR_ROD_PATH=/home/henry/Downloads/games/paper-mario/StarRod/
+if [ -e $HOME/.bashrc.local ]; then
+  source "$HOME/.bashrc.local"
+fi

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ $# -lt 2 ]; then
+  echo "Usage: $0 OUTPUT_DIR BIN"
+  exit 1
+fi
+
+OUT_DIR=$(wslpath -w $1)
+shift
+for FILE in $*; do
+  symchk.exe /s 'SRV*C:\symcache*http://symweb' /ocx "$OUT_DIR" "$(wslpath -w $FILE)"
+
+done
+
