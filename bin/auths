@@ -51,7 +51,7 @@ def get_pat_token(org='fuzzfest'):
         body = {
             'displayName': 'Rust/git CLI (auths)',
             'validTo': (datetime.utcnow() + timedelta(days=30)).strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
-            'scope': 'vso.code_write vso.packaging_write',
+            'scope': 'vso.build vso.code_write vso.packaging_write vso.build',
             'allOrgs': False,
         }
         resp = requests.post(base_uri(org) + '?api-version=6.1-preview',

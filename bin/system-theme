@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if which reg.exe > /dev/null 2> /dev/null; then
+  IS_LIGHT=$(reg.exe query 'HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' | \
+    grep AppsUseLightTheme | awk '{ print($3) }' | cut -c 3- | tr -d '\r\n ' )
+  if [ "$IS_LIGHT" -eq 0 ]; then
+    echo dark
+  else
+    echo light
+  fi
+else
+  # TODO: linux get system theme mode
+  echo dark
+fi

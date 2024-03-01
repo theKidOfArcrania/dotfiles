@@ -12,6 +12,7 @@ set shiftwidth=2
 set expandtab
 set laststatus=2
 set termguicolors
+set tabpagemax=100
 
 set textwidth=80
 set fo+=t
@@ -201,6 +202,7 @@ nmap <leader>F  <Plug>(coc-format-selected)
 " Example: `<leader>aap` for current paragraph
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>m  :CocCommand rust-analyzer.expandMacro<cr>
 
 " Remap keys for applying codeAction to the current buffer.
 nmap <leader>ac  <Plug>(coc-codeaction)
@@ -300,6 +302,7 @@ Plug 'NLKNguyen/papercolor-theme'
 call plug#end()
 
 colorscheme PaperColor
-set background=dark
+" set background=dark
+let &background = substitute(system("system-theme"), "[\n\r ]", "", "")
 
 set secure
